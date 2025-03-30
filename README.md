@@ -10,6 +10,44 @@ Spring Boot application for HubSpot integration with contact management and webh
 - H2 Database (included)
 - Fly.io CLI (for deployment)
 
+## Dependencies
+
+### Core Dependencies
+- Spring Boot 3.4.4
+  - Framework principal escolhido por sua maturidade, e minha familiaridade com o mesmo.
+- Spring Web (REST APIs)
+  - Necessário para criar endpoints REST
+- Spring Data JPA (Database)
+  - Facilita a persistência de dados e operações com o banco de dados
+- Spring Security (Authentication)
+  - Garante a segurança dos endpoints e integração com OAuth2
+- Spring OAuth2 Client (HubSpot OAuth)
+  - Gerencia a autenticação OAuth2 com o HubSpot
+
+### Database
+- H2 Database (In-memory/File-based)
+  - Banco de dados leve para desenvolvimento, fácil acesso e uso simples.
+
+### Development Tools
+- Lombok (Reduces boilerplate)
+  - Reduz código boilerplate e melhora a produtividade
+- Spring Boot DevTools (Development)
+  - Facilita o desenvolvimento com hot reload e configurações automáticas
+- Spring Boot Configuration Processor
+  - Melhora o suporte a configurações customizadas no desenvolvimento
+
+### Utilities
+- Guava (Google's core libraries)
+  - Biblioteca de utilidades robusta para manipulação de strings, coleções e cache 
+- Jackson (JSON processing)
+  - Processamento eficiente de JSON para comunicação com a API do HubSpot
+
+### Testing
+- Spring Boot Test
+  - Framework de testes integrado para testes unitários e de integração
+- Spring Security Test
+  - Testes específicos para segurança e autenticação
+
 ## Local Development Setup
 
 ### 1. Clone the Repository
