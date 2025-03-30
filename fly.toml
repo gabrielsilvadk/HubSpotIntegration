@@ -17,6 +17,9 @@ primary_region = "gru"
   SPRING_JPA_HIBERNATE_DDL_AUTO = "update"
   SPRING_JPA_SHOW_SQL = "true"
   SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL = "true"
+  SPRING_PROFILES_ACTIVE = "prod"
+  H2_CONSOLE_ENABLED = "false"
+  H2_CONSOLE_ALLOW_OTHERS = "false"
 
 [http_service]
   internal_port = 8080

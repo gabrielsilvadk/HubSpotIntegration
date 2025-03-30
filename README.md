@@ -8,6 +8,7 @@ Spring Boot application for HubSpot integration with contact management and webh
 - Maven
 - HubSpot Developer Account
 - H2 Database (included)
+- Fly.io CLI (for deployment)
 
 ## Configuration
 
@@ -68,13 +69,39 @@ Or with Maven:
 ./mvnw spring-boot:run
 ```
 
-## Security Considerations
+## Deployment to Fly.io
 
-1. Never commit the `.env` file
-2. Use strong passwords in production
-3. Disable H2 Console in production
-4. Keep HubSpot credentials secure
-5. Use HTTPS in production
+1. Install Fly.io CLI:
+```bash
+curl -L https://fly.io/install.sh | sh
+```
+
+2. Login to Fly.io:
+```bash
+fly auth login
+```
+
+3. Set up secrets for HubSpot credentials:
+```bash
+fly secrets set HUBSPOT_CLIENT_ID=your_client_id
+fly secrets set HUBSPOT_CLIENT_SECRET=your_client_secret
+fly secrets set HUBSPOT_REDIRECT_URI=https://your-app-name.fly.dev/api/auth/callback
+```
+
+4. Deploy the application:
+```bash
+fly deploy
+```
+
+5. Monitor the deployment:
+```bash
+fly status
+```
+
+6. View logs:
+```bash
+fly logs
+```
 
 ## API Endpoints
 
@@ -89,7 +116,7 @@ Or with Maven:
 
 The application uses H2 database:
 - Development: In-memory database
-- Production: File-based database
+- Production: File-based database (persisted in Fly.io volume)
 
 Access H2 Console (development only):
 - URL: http://localhost:8080/h2-console
