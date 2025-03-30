@@ -15,10 +15,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .headers(headers -> headers.frameOptions().disable())
+            .headers(headers -> headers
+                .frameOptions().disable()
+                .xssProtection().disable()
+            )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/webhooks/**").permitAll()
                 .requestMatchers("/api/contacts/**").authenticated()
                 .anyRequest().authenticated()
             );

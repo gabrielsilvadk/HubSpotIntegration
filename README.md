@@ -254,6 +254,125 @@ The application uses H2 database:
 - Username: sa
 - Password: (from environment variables)
 
+## Webhook Configuration
+
+### 1. Configure Webhook in HubSpot
+
+1. Log in to your HubSpot account
+2. Go to Settings (⚙️) > Integrations > Webhooks
+3. Click "Create webhook"
+4. Configure the webhook:
+   - Name: "Contact Webhook"
+   - URL: `https://hubspot-integration.fly.dev/api/webhooks/hubspot`
+   - Subscription Type: "Contact"
+   - Event Type: 
+     - Contact creation
+     - Contact property change
+     - Contact deletion
+   - Format: "JSON"
+   - Version: "v3"
+
+### 2. Webhook Payload Structure
+
+The webhook receives the following JSON structure:
+```json
+{
+  "events": [
+    {
+      "eventType": "contact.creation",
+      "objectId": "123456",
+      "propertyName": "email",
+      "propertyValue": "contact@example.com",
+      "timestamp": 1234567890
+    }
+  ]
+}
+```
+
+### 3. Testing Webhooks
+
+1. **Configurar o Webhook no HubSpot**:
+   - Acesse o HubSpot
+   - Vá em Settings > Integrations > Webhooks
+   - Clique em "Create webhook"
+   - Configure:
+     - Nome: "Contact Webhook"
+     - URL: `https://hubspot-integration.fly.dev/api/webhooks/hubspot`
+     - Tipo de Assinatura: "Contact"
+     - Eventos: 
+       - Contact creation
+       - Contact property change
+       - Contact deletion
+     - Formato: JSON
+     - Versão: v3
+
+2. **Testar o Webhook Localmente**:
+   ```bash
+   # Teste de criação de contato
+   curl -X POST http://localhost:8080/api/webhooks/hubspot \
+     -H "Content-Type: application/json" \
+     -d '{
+       "events": [
+         {
+           "eventType": "contact.creation",
+           "objectId": "123456",
+           "propertyName": "email",
+           "propertyValue": "test@example.com",
+           "timestamp": 1234567890
+         }
+       ]
+     }'
+
+   # Teste de mudança de propriedade
+   curl -X POST http://localhost:8080/api/webhooks/hubspot \
+     -H "Content-Type: application/json" \
+     -d '{
+       "events": [
+         {
+           "eventType": "contact.propertyChange",
+           "objectId": "123456",
+           "propertyName": "phone",
+           "propertyValue": "+5511999999999",
+           "timestamp": 1234567890
+         }
+       ]
+     }'
+
+   # Teste de deleção de contato
+   curl -X POST http://localhost:8080/api/webhooks/hubspot \
+     -H "Content-Type: application/json" \
+     -d '{
+       "events": [
+         {
+           "eventType": "contact.deletion",
+           "objectId": "123456",
+           "timestamp": 1234567890
+         }
+       ]
+     }'
+   ```
+
+3. **Monitorar os Logs**:
+   ```bash
+   # Em desenvolvimento local
+   tail -f logs/application.log
+
+   # Em produção (Fly.io)
+   fly logs
+   ```
+
+4. **Verificar o Status do Webhook**:
+   - No HubSpot, vá em Settings > Integrations > Webhooks
+   - Clique no webhook criado
+   - Verifique o status e os logs de entrega
+   - Confirme que os eventos estão sendo recebidos
+
+5. **Testar com Contatos Reais**:
+   - Crie um contato no HubSpot
+   - Atualize alguma propriedade do contato
+   - Delete o contato
+   - Verifique os logs da aplicação para confirmar o recebimento dos eventos
+
 ## Troubleshooting
 
 ### Common Issues
